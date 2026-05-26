@@ -2,7 +2,6 @@
 name = "hiregraph"
 version = "0.1.0"
 requires-python = ">=3.11"
-
 dependencies = [
     "langgraph",
     "langchain",
@@ -17,3 +16,9 @@ dependencies = [
     "pytest",
     "tavily-python"
 ]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
