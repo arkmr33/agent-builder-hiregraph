@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel,Field
 from typing import Literal
 
 class SeniorityOutput(BaseModel):
@@ -11,3 +11,9 @@ class SeniorityOutput(BaseModel):
 
 class SkillPlan(BaseModel):
     required_skills: list[str]
+
+
+
+
+class ScoreOutput(BaseModel):
+    score: float = Field(ge=1, le=10)
