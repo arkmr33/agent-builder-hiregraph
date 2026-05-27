@@ -23,8 +23,8 @@ class HireGraphState(TypedDict):
     parser_error: str
     human_approved: bool
 
-    email_sent: bool
-    ats_updated: bool
+    email_sent: Annotated[bool, lambda old, new: new]
+    ats_updated: Annotated[bool, lambda old, new: new]
 
     compensation_log: list[str]
 
