@@ -17,7 +17,7 @@ class HireGraphState(TypedDict):
     
     recommendation: Annotated[str, lambda old, new: new] 
 
-    draft_email: str
+    draft_email: Annotated[str, lambda old, new: new]
     critique_attempts: int
 
     parser_error: str

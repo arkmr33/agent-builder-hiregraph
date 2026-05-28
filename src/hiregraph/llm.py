@@ -37,7 +37,9 @@ NVIDIA_API_KEY = os.getenv("NVIDIA_API_KEY")
 
 llm = ChatGroq(
     model="llama-3.3-70b-versatile",  # or "llama3-70b-8k"
-    api_key=GROQ_API_KEY
+    api_key=GROQ_API_KEY,
+    max_tokens=4096,
+    temperature=0
 )
 
 
