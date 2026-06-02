@@ -1,5 +1,6 @@
 from typing import TypedDict, Annotated
 import operator
+from langgraph.graph.message import add_messages
 
 
 class HireGraphState(TypedDict):
@@ -26,8 +27,8 @@ class HireGraphState(TypedDict):
     email_sent: Annotated[bool, lambda old, new: new]
     ats_updated: Annotated[bool, lambda old, new: new]
 
-    compensation_log: list[str]
+    compensation_log: Annotated[list, operator.add]
 
     audit_trail: Annotated[list, operator.add]
 
-    messages: Annotated[list, operator.add]
+    messages: Annotated[list, add_messages]
