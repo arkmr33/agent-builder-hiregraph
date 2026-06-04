@@ -16,6 +16,9 @@ def draft_email(state):
         "draft_email": result.content
     }
 
+
+
+
 def critic_loop(
     state
 ) -> Command[
@@ -61,19 +64,3 @@ def send_email_and_update_ats(state):
 
 
 
-# def send_email_and_update_ats(state):
-#     should_fail = state.get("should_fail_email", False)
-
-#     if should_fail:
-#         raise Exception("ATS update failed")
-
-#     return Command(
-#         goto="finalize",
-#         update={
-#             "email_sent": True,
-#             "ats_updated": True,
-#             "audit_trail": state.get("audit_trail", []) + [
-#                 {"node": "send_email_and_update_ats"}
-#             ]
-#         }
-#     )

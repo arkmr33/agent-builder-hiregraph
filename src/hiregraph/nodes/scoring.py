@@ -1,5 +1,6 @@
 from src.hiregraph.llm import llm
 from src.hiregraph.schemas import ScoreOutput
+from src.hiregraph.utils.helpers import safe_llm_invoke
 
 structured_llm = llm.with_structured_output(ScoreOutput)
 
@@ -26,7 +27,7 @@ def experience_scorer(state):
     Return ONLY a number.
     """
 
-    result = structured_llm.invoke(prompt)
+    result = safe_llm_invoke(structured_llm, prompt)
 
     score = result.score
 
@@ -66,7 +67,7 @@ def education_scorer(state):
     - 9-10 exceptional
     """
 
-    result = structured_llm.invoke(prompt)
+    result = safe_llm_invoke(structured_llm, prompt)
 
     score = result.score
 
@@ -119,7 +120,7 @@ def signal_scorer(state):
     Do NOT default high. If unsure, score low.
     """
 
-    result = structured_llm.invoke(prompt)
+    result = safe_llm_invoke(structured_llm, prompt)
 
     score = result.score
    
@@ -134,31 +135,6 @@ def signal_scorer(state):
         ]
     }
 
-# def experience_scorer(state):
-#     return {
-#         "scores": [7],
-#         "audit_trail": state.get("audit_trail", []) + [
-#             {"node": "experience_scorer"}
-#         ]
-#     }
-
-
-# def education_scorer(state):
-#     return {
-#         "scores": [8],
-#         "audit_trail": state.get("audit_trail", []) + [
-#             {"node": "education_scorer"}
-#         ]
-#     }
-
-
-# def signal_scorer(state):
-#     return {
-#         "scores": [6],
-#         "audit_trail": state.get("audit_trail", []) + [
-#             {"node": "signal_scorer"}
-#         ]
-#     }
 
 
 

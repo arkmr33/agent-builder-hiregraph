@@ -6,19 +6,13 @@ from datetime import datetime
 
 def finalize(state):
 
-    logs = state.get("audit_trail", [])
-
-    logs.append({
-        "event": "workflow_completed"
-    })
-
     return {
-    "audit_trail": [
-        {"event": "workflow_completed"}
-    ],
-    "final_score": state.get("final_score", 0),
-    "recommendation": state.get("recommendation", "unknown")
-}
+        "audit_trail": [
+            {"event": "workflow_completed"}
+        ],
+        "final_score": state.get("final_score", 0),
+        "recommendation": state.get("recommendation", "unknown")
+    }
 
 
 

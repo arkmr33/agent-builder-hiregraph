@@ -1,6 +1,7 @@
 from src.hiregraph.llm import llm
 from src.hiregraph.schemas import ScoreOutput
-
+import time
+from src.hiregraph.utils.helpers import safe_llm_invoke
 
 structured_llm = llm.with_structured_output(ScoreOutput)
 
@@ -27,9 +28,8 @@ def skill_worker(state):
     - 9-10 exceptional
     """
 
-   
 
-    result = structured_llm.invoke(prompt)
+    result = safe_llm_invoke(structured_llm, prompt)
 
     score = result.score
     print("Skill:", skill)

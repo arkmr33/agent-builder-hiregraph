@@ -1,23 +1,27 @@
 from src.hiregraph.llm import llm
+from src.hiregraph.utils.helpers import safe_llm_invoke
 
 def draft_rejection(state):
-    response = llm.invoke(
-        "Write rejection email."
+    response = safe_llm_invoke(
+        llm,
+        "Write rejection email to candidate."
     )
 
     return {
         "draft_email": response.content
     }
 
+def rejection_check(state):
+    email = state["draft_email"]
+
+    if state.get("human_approved"):
+        return "draft_email"
+    else:
+        return "draft_rejection"
+
+
 def log_rejection(state):
-    logs = state["audit_trail"]
-
-    logs.append(
-        {
-            "event": "candidate_rejected"
-        }
-    )
-
+    
     return {
     "audit_trail": [
         {

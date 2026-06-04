@@ -1,3 +1,4 @@
+from hiregraph.nodes.rejection import rejection_check
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.types import RetryPolicy
@@ -14,12 +15,10 @@ from src.hiregraph.nodes.scoring import (
     signal_scorer,
     aggregate_scores
 )
-
+from src.hiregraph.nodes.recovery import parser_node, parser_router, repair_node
 from langgraph.prebuilt import tools_condition
 from src.hiregraph.nodes.research_agent import research_agent
 from src.hiregraph.nodes.toolnode import *
-from src.hiregraph.tools.github_lookup import github_lookup
-from src.hiregraph.tools.search import tavily_search
 from src.hiregraph.nodes.decision import recommendation
 from src.hiregraph.nodes.routes import (
     advance,
@@ -117,10 +116,13 @@ def build_graph():
     # ==================================================
 
     builder.add_node(
-        "research_agent",
-        research_agent
+    "research_agent",
+    research_agent,
+    retry=RetryPolicy(
+        max_attempts=3,
+        retry_on=(Exception,)
     )
-
+    )
     # ==================================================
     # DECISION ROUTING
     # ==================================================
@@ -209,6 +211,18 @@ def build_graph():
         "saver",
         saver
     )
+
+    # retry nodes
+    builder.add_node(
+    "parser_node",
+    parser_node
+    )
+
+    builder.add_node(
+        "repair_node",
+        repair_node
+    )
+
     # ==================================================
     # EDGES
     # ==================================================
@@ -227,20 +241,19 @@ def build_graph():
         "classify_seniority",
         "plan_required_skills"
     )
+  
 
-    # ==================================================
+ 
+
+
     # ORCHESTRATOR FANOUT
-    # ==================================================
 
-    # builder.add_edge("plan_required_skills", "skill_worker")
     builder.add_conditional_edges(
     "plan_required_skills",
     assign_skill_workers
 )
 
-    # ==================================================
     # PARALLEL SCORERS
-    # ==================================================
 
     builder.add_edge(
         "plan_required_skills",
@@ -277,9 +290,7 @@ def build_graph():
         "aggregate_scores"
     )
 
-    # ==================================================
     # RESEARCH BRANCH
-    # ==================================================
 
     builder.add_edge(
         "plan_required_skills",
@@ -288,16 +299,27 @@ def build_graph():
 
   
 
+    # builder.add_conditional_edges(
+    #     "research_agent",
+    #     tools_condition,
+    #     {
+    #         "tools": "tool_node",
+    #         "__end__": "aggregate_scores"
+    #     }
+    # )
+
     builder.add_conditional_edges(
-        "research_agent",
-        tools_condition,
-        {
-            "tools": "tool_node",
-            "__end__": "aggregate_scores"
-        }
+    "research_agent",
+    tools_condition,
+    {
+        "tools": "tool_node",
+        "__end__": "parser_node"
+    }
     )
 
-
+    
+    
+ 
     builder.add_edge(
     "tool_node",
     "research_agent"
@@ -310,28 +332,41 @@ def build_graph():
 
     
 
+    # error hanfling 
+    builder.add_conditional_edges(
+    "parser_node",
+    parser_router
+        )
+    
+    builder.add_edge(
+    "repair_node",
+    "research_agent"
+)
+    
 
-    # ==================================================
+
+
     # ADVANCE FLOW
-    # ==================================================
-
+  
     builder.add_edge(
         "advance",
         "draft_email"
     )
 
-    # ==================================================
     # BORDERLINE FLOW
-    # ==================================================
 
     builder.add_edge(
         "borderline",
         "human_review"
     )
 
-    builder.add_edge(
+    builder.add_conditional_edges(
         "human_review",
-        "draft_email"
+        rejection_check,
+        {
+            "draft_email": "draft_email",
+            "draft_rejection": "draft_rejection"
+        }
     )
 
     # ==================================================

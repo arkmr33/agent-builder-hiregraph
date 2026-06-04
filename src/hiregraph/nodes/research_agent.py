@@ -35,12 +35,12 @@ def research_agent(state):
         {tools}
         
         IMPORTANT:
-        Do not skip any tool.
-        Use each of the tools only ONCE.
+        Use tools only if their results are not already present.
+        Do not call the same tool twice.
         use extracted username above to lookup GitHub profile.
         Do NOT guess names like "john Doe".
         produce a FINAL research summary.
-        Do not endlessly call tools.
+        If tool results exist already, DO NOT call tools again
         """
 
         messages = [HumanMessage(content=prompt)]
@@ -48,5 +48,5 @@ def research_agent(state):
     response = llm_with_tools.invoke(messages)
 
     return {
-        "messages": [response]
+    "messages": messages + [response]
     }

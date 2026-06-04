@@ -33,6 +33,8 @@ def debug_tool_node(state):
             print(f"Content:\n{msg.content}")
             print("-" * 60)
 
-    return result
+    return {
+    "messages": state.get("messages", []) + result.get("messages", [])
+}
 
 

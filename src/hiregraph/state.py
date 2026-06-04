@@ -21,7 +21,6 @@ class HireGraphState(TypedDict):
     draft_email: Annotated[str, lambda old, new: new]
     critique_attempts: int
 
-    parser_error: str
     human_approved: bool
 
     email_sent: Annotated[bool, lambda old, new: new]
@@ -32,3 +31,7 @@ class HireGraphState(TypedDict):
     audit_trail: Annotated[list, operator.add]
 
     messages: Annotated[list, add_messages]
+
+    repair_attempts: int
+
+    parser_error:str

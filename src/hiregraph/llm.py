@@ -33,14 +33,9 @@ NVIDIA_API_KEY = os.getenv("NVIDIA_API_KEY")
 #   print(chunk.content, end="")
 
 
-# llm = ChatOpenAI(
-#     model="gpt-4o-mini",
-#     temperature=0.3
-# )
-
-
 llm = ChatGroq(
-    model="llama-3.3-70b-versatile",  # or "llama3-70b-8k"
+    model="llama-3.3-70b-versatile",
+    #model="llama-3.1-8b-instant", 
     api_key=GROQ_API_KEY,
     max_tokens=4096,
     temperature=0
