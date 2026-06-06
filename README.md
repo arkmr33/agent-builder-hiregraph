@@ -83,14 +83,10 @@ hiregraph/
         │   └── finalize.py
         │
         ├── tools/
-        │   ├── tavily_search.py
-        │   └── github_lookup.py
-        │
-        └── services/
-            ├── ats_service.py
-            ├── email_service.py
-            └── mock_services.py
-```
+            ├── tavily_search.py
+            └── github_lookup.py
+        
+      
 
 ---
 
@@ -186,9 +182,7 @@ python main.py
 
 Graph visualization:
 
-```text
-graph_out/graph.png
-```
+![Workflow](graph.png)
 
 ---
 
