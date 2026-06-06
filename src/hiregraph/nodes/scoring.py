@@ -27,9 +27,16 @@ def experience_scorer(state):
     Return ONLY a number.
     """
 
-    result = safe_llm_invoke(structured_llm, prompt)
+    try:
+        result = safe_llm_invoke(structured_llm, prompt)
+        score = result.score
 
-    score = result.score
+    except Exception as e:
+
+        print("experience scorer failed:", e)
+
+        score = 0
+
 
     return {
         "scores": [score],
@@ -67,9 +74,16 @@ def education_scorer(state):
     - 9-10 exceptional
     """
 
-    result = safe_llm_invoke(structured_llm, prompt)
+    try:
+        result = safe_llm_invoke(structured_llm, prompt)
+        score = result.score
 
-    score = result.score
+    except Exception as e:
+
+        print("experience scorer failed:", e)
+
+        score = 0
+
 
     return {
         "scores": [score],
@@ -120,9 +134,17 @@ def signal_scorer(state):
     Do NOT default high. If unsure, score low.
     """
 
-    result = safe_llm_invoke(structured_llm, prompt)
+    try:
+        result = safe_llm_invoke(structured_llm, prompt)
+        score = result.score
 
-    score = result.score
+    except Exception as e:
+
+        print("experience scorer failed:", e)
+
+        score = 0
+
+   
    
 
     return {
@@ -139,6 +161,10 @@ def signal_scorer(state):
 
 
 def aggregate_scores(state):
+
+    if state.get("final_score", 0) != 0:
+        return {}
+
     scores = state.get("scores", [])
 
     if not scores:
@@ -147,8 +173,8 @@ def aggregate_scores(state):
     avg = sum(scores) / len(scores)
 
     return {
-    "final_score": avg,
-    "audit_trail": [
-        {"node": "aggregate_scores"}
-    ]
-}
+        "final_score": avg,
+        "audit_trail": [
+            {"node": "aggregate_scores"}
+        ]
+    }

@@ -2,13 +2,9 @@ from langgraph.types import interrupt
 
 def human_review(state):
     print("\n========== wait for approval ==========\n")
-    result = interrupt(
-        {
-            "recommendation": state["recommendation"],
-            "score": state["final_score"]
-        }
-    )
-
-    return {
-        "human_approved": result
-    }
+    result = interrupt({
+            "message": "approval needed",
+            "request": "Please approvev to proceed",
+        })
+    print("interrupt result:", result)
+    return {}

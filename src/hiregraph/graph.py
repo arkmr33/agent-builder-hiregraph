@@ -349,10 +349,10 @@ def build_graph():
 )
     
 
-    builder.add_edge(
-    "wait_for_all",
-    "aggregate_scores"
-)
+#     builder.add_edge(
+#     "wait_for_all",
+#     "aggregate_scores"
+# )
 
     # ADVANCE FLOW
   

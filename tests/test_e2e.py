@@ -74,7 +74,7 @@ def test_graph_builds():
                 Command(update={"human_approved": approved}),
                 config=config
             )
-            
+
         else:
             break
         
