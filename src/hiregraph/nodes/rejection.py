@@ -12,7 +12,6 @@ def draft_rejection(state):
     }
 
 def rejection_check(state):
-    email = state["draft_email"]
 
     if state.get("human_approved"):
         return "draft_email"

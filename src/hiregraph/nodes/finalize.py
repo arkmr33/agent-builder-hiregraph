@@ -31,16 +31,16 @@ def saver(state: HireGraphState):
     lines.append("# HireGraph - Candidate Evaluation Report\n")
 
     lines.append("## Summary")
-    lines.append(f"- Final Score: {state['final_score']}")
-    lines.append(f"- Recommendation: {state['recommendation']}")
-    lines.append(f"- Human Approved: {state['human_approved']}")
-    lines.append(f"- Email Sent: {state['email_sent']}")
-    lines.append(f"- ATS Updated: {state['ats_updated']}")
+    lines.append(f"- Final Score: {state.get('final_score', 'N/A')}")
+    lines.append(f"- Recommendation: {state.get('recommendation', 'N/A')}")
+    lines.append(f"- Human Approved: {state.get('human_approved', False)}")
+    lines.append(f"- Email Sent: {state.get('email_sent', False)}")
+    lines.append(f"- ATS Updated: {state.get('ats_updated', False)}")
     lines.append("")
 
     lines.append("## Seniority & Skills")
-    lines.append(f"- Seniority: {state['seniority']}")
-    lines.append(f"- Required Skills: {state['required_skills']}")
+    lines.append(f"- Seniority: {state.get('seniority', 'N/A')}")
+    lines.append(f"- Required Skills: {state.get('required_skills', 'N/A')}")
     lines.append("")
 
     lines.append("## Skill Reviews")

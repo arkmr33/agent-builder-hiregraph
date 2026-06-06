@@ -18,3 +18,8 @@ def plan_required_skills(state):
     return {
         "required_skills": result.required_skills
     }
+
+
+
+def wait_for_all(state):
+    return {}

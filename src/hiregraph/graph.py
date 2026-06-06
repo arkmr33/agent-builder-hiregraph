@@ -6,7 +6,7 @@ from langgraph.prebuilt import ToolNode
 from src.hiregraph.state import HireGraphState
 from src.hiregraph.ingest import ingest_resume_and_jd
 from src.hiregraph.nodes.classify import classify_seniority
-from src.hiregraph.nodes.planning import plan_required_skills
+from src.hiregraph.nodes.planning import plan_required_skills, wait_for_all
 from src.hiregraph.nodes.orchestrator import assign_skill_workers
 from src.hiregraph.nodes.skillworker import skill_worker
 from src.hiregraph.nodes.scoring import (
@@ -110,6 +110,11 @@ def build_graph():
         "aggregate_scores",
         aggregate_scores
     )
+
+    builder.add_node(
+    "wait_for_all",
+    wait_for_all
+)
 
     # ==================================================
     # RESEARCH AGENT
@@ -272,22 +277,22 @@ def build_graph():
 
     builder.add_edge(
         "experience_scorer",
-        "aggregate_scores"
+        "wait_for_all"
     )
 
     builder.add_edge(
         "education_scorer",
-        "aggregate_scores"
+        "wait_for_all"
     )
 
     builder.add_edge(
         "signal_scorer",
-        "aggregate_scores"
+        "wait_for_all"
     )
 
     builder.add_edge(
         "skill_worker",
-        "aggregate_scores"
+        "wait_for_all"
     )
 
     # RESEARCH BRANCH
@@ -344,7 +349,10 @@ def build_graph():
 )
     
 
-
+    builder.add_edge(
+    "wait_for_all",
+    "aggregate_scores"
+)
 
     # ADVANCE FLOW
   
@@ -406,12 +414,6 @@ def build_graph():
     # SAGA ROUTING
     # ==================================================
 
-
-
-#     builder.add_edge(
-#     "send_email_and_update_ats",
-#     "finalize"
-# )
 
     builder.add_conditional_edges(
     "send_email_and_update_ats",
