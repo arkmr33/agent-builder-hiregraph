@@ -1,20 +1,20 @@
-# HireGraph - LangGraph Smart Hiring Assistant
+# HireGraph — LangGraph Smart Hiring Assistant
 
 HireGraph is a LangGraph-powered hiring assistant that:
-- Reads resumes and job descriptions
-- Classifies candidate seniority
-- Scores candidates across multiple dimensions
-- Generates explainable hiring recommendations
-- Drafts personalized emails
-- Supports human-in-the-loop review
-- Implements retries, recovery loops, saga compensation, and orchestration patterns
+
+* Reads resumes and job descriptions
+* Classifies candidate seniority
+* Scores candidates across multiple dimensions
+* Generates explainable hiring recommendations
+* Drafts personalized emails
+* Supports human-in-the-loop review
+* Implements retries, recovery loops, saga compensation, and orchestration patterns
 
 ---
 
----
+# Project Structure
 
-# Folder structure
-
+```text
 hiregraph/
 │
 ├── README.md
@@ -59,7 +59,7 @@ hiregraph/
         ├── llm.py
         ├── schemas.py
         │
-        ├── nodes/
+        ├── prompts/
         │   ├── classify.txt
         │   ├── scoring.txt
         │   ├── email.txt
@@ -90,64 +90,81 @@ hiregraph/
             ├── ats_service.py
             ├── email_service.py
             └── mock_services.py
-
+```
 
 ---
 
-resume + jd
-   ↓
-ingest
-   ↓
-classify seniority
-   ↓
-plan required skills
-   ↓
-ORCHESTRATE workers (Send)
-   ↓
-PARALLEL scorers (experience, education, signal, research)
-   ↓
-aggregate scores
-   ↓
-recommendation (advance / reject / borderline)
-   ↓
-IF borderline → interrupt (human review)
-   ↓
-email draft
-   ↓
-critic loop (retry up to 3)
-   ↓
-send email + ATS
-   ↓
-finalize
+# Workflow
 
+```text
+Resume + Job Description
+            ↓
+         Ingest
+            ↓
+   Classify Seniority
+            ↓
+    Plan Required Skills
+            ↓
+ ORCHESTRATE Workers (Send)
+            ↓
+ Parallel Scorers
+(experience, education,
+ signal, research)
+            ↓
+     Aggregate Scores
+            ↓
+ Recommendation
+(advance / reject / borderline)
+            ↓
+If borderline → Human Review
+        using interrupt()
+            ↓
+       Draft Email
+            ↓
+   Critic / Retry Loop
+      (up to 3 retries)
+            ↓
+  Send Email + Update ATS
+            ↓
+          Finalize
+```
 
 ---
 
 # Features
 
-- LangGraph orchestration
-- TypedDict state
-- Structured outputs
-- Parallel scoring
-- Orchestrator-worker pattern
-- Evaluator-optimizer loop
-- Tool calling
-- Retry policies
-- Human approval with interrupt()
-- Saga compensation handling
-- Graph visualization
+* LangGraph orchestration
+* TypedDict-based state management
+* Structured LLM outputs
+* Parallel scoring pipelines
+* Orchestrator-worker pattern
+* Evaluator-optimizer loops
+* Tool calling
+* Retry and recovery policies
+* Human approval using `interrupt()`
+* Saga compensation handling
+* Graph visualization support
 
 ---
 
 # Setup
 
+## Create virtual environment
+
 ```bash
 uv venv
 source .venv/bin/activate
+```
+
+## Install dependencies
+
+```bash
 uv pip install -r requirements.txt
 ```
 
-Create `.env`
+## Configure environment variables
+
+Create a `.env` file:
 
 ```env
 OPENAI_API_KEY=your_key
@@ -155,7 +172,9 @@ TAVILY_API_KEY=your_key
 HIREGRAPH_USE_MOCKS=true
 ```
 
-Run:
+---
+
+# Run the Application
 
 ```bash
 python main.py
@@ -165,22 +184,38 @@ python main.py
 
 # Architecture
 
-See `graph_out/graph.png`
+Graph visualization:
+
+```text
+graph_out/graph.png
+```
 
 ---
 
-# Required Assignment Patterns
+# Implemented LangGraph Patterns
 
-| Pattern | Implemented |
-|---|---|
-| TypedDict State | ✅ |
-| Command Routing | ✅ |
-| RetryPolicy | ✅ |
-| LLM Recovery Loop | ✅ |
-| interrupt() | ✅ |
-| Saga Compensation | ✅ |
-| Structured Output | ✅ |
-| Tool Calling | ✅ |
-| Parallelization | ✅ |
-| Orchestrator Workers | ✅ |
-| Evaluator Optimizer | ✅ |
+| Pattern                     | Status |
+| --------------------------- | ------ |
+| TypedDict State             | ✅      |
+| Command Routing             | ✅      |
+| RetryPolicy                 | ✅      |
+| LLM Recovery Loop           | ✅      |
+| `interrupt()` Human Review  | ✅      |
+| Saga Compensation           | ✅      |
+| Structured Output           | ✅      |
+| Tool Calling                | ✅      |
+| Parallelization             | ✅      |
+| Orchestrator-Worker Pattern | ✅      |
+| Evaluator-Optimizer Loop    | ✅      |
+
+---
+
+# Future Improvements
+
+* Add persistent checkpointing
+* Add streaming token support
+* Add recruiter dashboard
+* Integrate vector memory
+* Add multi-agent interview simulation
+* Add observability with LangSmith
+* Add Docker deployment support
