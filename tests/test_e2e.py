@@ -71,7 +71,7 @@ def test_graph_builds():
             approved = input("Approve candidate? (yes/no): ").lower() == "yes"
 
             result = graph.invoke(
-                Command(update={"human_approved": approved}),
+                Command(resume=approved),
                 config=config
             )
 

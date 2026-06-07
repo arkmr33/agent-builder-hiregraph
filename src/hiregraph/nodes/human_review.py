@@ -7,4 +7,7 @@ def human_review(state):
             "request": "Please approvev to proceed",
         })
     print("interrupt result:", result)
-    return {}
+
+    return {
+        "human_approved": result
+    }

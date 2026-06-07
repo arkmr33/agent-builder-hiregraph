@@ -111,10 +111,6 @@ def build_graph():
         aggregate_scores
     )
 
-    builder.add_node(
-    "wait_for_all",
-    wait_for_all
-)
 
     # ==================================================
     # RESEARCH AGENT
@@ -277,22 +273,22 @@ def build_graph():
 
     builder.add_edge(
         "experience_scorer",
-        "wait_for_all"
+        "aggregate_scores"
     )
 
     builder.add_edge(
         "education_scorer",
-        "wait_for_all"
+        "aggregate_scores"
     )
 
     builder.add_edge(
         "signal_scorer",
-        "wait_for_all"
+        "aggregate_scores"
     )
 
     builder.add_edge(
         "skill_worker",
-        "wait_for_all"
+        "aggregate_scores"
     )
 
     # RESEARCH BRANCH
@@ -348,11 +344,7 @@ def build_graph():
     "research_agent"
 )
     
-
-#     builder.add_edge(
-#     "wait_for_all",
-#     "aggregate_scores"
-# )
+    
 
     # ADVANCE FLOW
   

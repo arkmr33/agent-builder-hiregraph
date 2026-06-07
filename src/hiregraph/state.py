@@ -21,7 +21,10 @@ class HireGraphState(TypedDict):
     draft_email: Annotated[str, lambda old, new: new]
     critique_attempts: int
 
-    human_approved: bool
+    human_approved: Annotated[
+    bool,
+    lambda old, new: new
+    ]
 
     email_sent: Annotated[bool, lambda old, new: new]
     ats_updated: Annotated[bool, lambda old, new: new]

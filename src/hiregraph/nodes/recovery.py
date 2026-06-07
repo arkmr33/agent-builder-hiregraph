@@ -52,7 +52,7 @@ def parser_router(state):
     ):
         return "repair_node"
 
-    return "wait_for_all"
+    return "aggregate_scores"
 
 
 
