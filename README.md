@@ -2,6 +2,15 @@
 
 HireGraph is a LangGraph-powered hiring assistant that:
 
+---
+## Repository
+
+GitHub Repo:
+https://github.com/arkmr33/hire_graph
+
+---
+
+
 * Reads resumes and job descriptions
 * Classifies candidate seniority
 * Scores candidates across multiple dimensions
@@ -145,6 +154,17 @@ If borderline → Human Review
 
 # Setup
 
+
+## Sample Hire Reports
+
+Generated candidate evaluation reports are stored in:
+
+```text
+hire_reports/
+```
+
+---
+
 ## Create virtual environment
 
 ```bash
@@ -167,6 +187,17 @@ OPENAI_API_KEY=your_key
 TAVILY_API_KEY=your_key
 HIREGRAPH_USE_MOCKS=true
 ```
+
+---
+
+# Run end to end tests
+
+```bash
+python -m tests.test_e2e
+```
+
+---
+
 
 ---
 
